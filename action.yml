@@ -1,0 +1,22 @@
+name: "Slack Status Notification"
+author: Release Engineering <rel-eng@hashicorp.com>
+description: Slack Status Notification (replacement for circleci_slack_status orb).
+
+inputs:
+  was-successful:
+    description: Pass through the GH success test result, on success publish the success message
+    required: true
+  slack-webhook-url:
+    description: Slack application webhook URL to post the message (if unsure, ask RelEng to create one)
+    required: true
+  success-message:
+    description: The success message (in Markdown) to be sent when was-successful is true.
+    default: ''
+  failure-message:
+    description: The failure message (in Markdown) to be sent when was-successful is false.
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo "Hello World"
