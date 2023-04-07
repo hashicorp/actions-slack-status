@@ -34,9 +34,6 @@ runs:
     - uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
       id: this
       with:
-        status: ${{ inputs.status }}
-        success-message: ${{ inputs.success-message }}
-        failure-message: ${{ inputs.failure-message }}
         #github-token: uncomment-this-line-for-local-act-testing
         script: |
           return require('./main.js')({context, core})
