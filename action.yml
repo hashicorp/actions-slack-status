@@ -12,19 +12,19 @@ inputs:
     required: true
     type: string
   success-message:
-    description: The success message (in Markdown) to be sent when was-successful is true. If unset, no message will be sent
+    description: The message (in Markdown) to be sent when status is 'success'. If unset, no message will be sent
     default: ''
     type: string
   failure-message:
-    description: The failure message (in Markdown) to be sent when was-successful is false
+    description: The message (in Markdown) to be sent when status is 'failure'. f unset, no message will be sent
     default: ''
     type: string
   cancelled-message:
-    description: The cancellation message (in Markdown) to be sent when was-successful is true. If unset, no message will be sent
+    description: The message (in Markdown) to be sent when status is 'cancelled'. If unset, no message will be sent
     default: ''
     type: string
   skipped-message:
-    description: The skip message (in Markdown) to be sent when was-successful is true. If unset, no message will be sent
+    description: The message (in Markdown) to be sent when status is 'skipped'. If unset, no message will be sent
     default: ''
     type: string
 
