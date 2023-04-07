@@ -16,7 +16,7 @@ steps:
   - run: |
       echo "This run failed!" 1>&2
       exit 1
-  - uses: hashicorp/action-slack-status@v1
+  - uses: hashicorp/actions-slack-status@v1
     if: ${{always()}}
     with:
       success-message: ":tada: A success message."
@@ -34,7 +34,7 @@ steps:
     id: demo
     run: |
       exit 0
-  - uses: hashicorp/action-slack-status@v1
+  - uses: hashicorp/actions-slack-status@v1
     with:
       skipped-message: ":skip: A successfully skipped cmd message."
       success-message: ":tada: A success message."
