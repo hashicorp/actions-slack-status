@@ -13,15 +13,71 @@ permissions:
   contents: read
 
 jobs:
-  test-success-handling:
+  test-skip-handling:
     runs-on: ubuntu-latest
     steps:
-     # For testing, we must check ourselves out.
-     - name: Checkout
-       uses: actions/checkout@v2
-     - uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
-       id: this
-       with:
-         debug: true
-         script: |
-           core.debug("test")
+      # For testing, we must check ourselves out.
+      - name: Checkout
+        uses: actions/checkout@v2
+      - if: ${{ 'false' != 'false' }}
+        id: demo
+        run: |
+          exit 0
+      - uses: ./
+        if: ${{always()}}
+        with:
+          skipped-message: ":testing: A successful skipped message."
+          status: ${{steps.demo.conclusion}}
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
+  test-always-handling:
+    runs-on: ubuntu-latest
+    steps:
+      # For testing, we must check ourselves out.
+      - name: Checkout
+        uses: actions/checkout@v2
+      - id: demo
+        continue-on-error: true
+        run: |
+          exit 1
+      - uses: ./
+        if: ${{always()}}
+        with:
+          failure-message: ":testing: A successful failure message."
+          status: ${{steps.demo.outcome}}
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
+
+  test-missing-message-handling:
+    runs-on: ubuntu-latest
+    steps:
+      # For testing, we must check ourselves out.
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: ./
+        with:
+          status: success
+          # Yes, success-message is undefined, this will emit no slack message!
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
+
+  test-success-message-handling:
+    runs-on: ubuntu-latest
+    steps:
+      # For testing, we must check ourselves out.
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: ./
+        with:
+          status: success
+          success-message: ":testing: A successful success message."
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
+
+  test-cancelled-message-handling:
+    runs-on: ubuntu-latest
+    steps:
+      # For testing, we must check ourselves out.
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: ./
+        with:
+          status: cancelled
+          cancelled-message: ":testing: A successful cancelled message."
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
