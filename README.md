@@ -34,11 +34,10 @@ steps:
     id: demo
     run: |
       exit 0
-  - uses: ./
+  - uses: hashicorp/action-slack-status@v1
     with:
       skipped-message: ":skip: A successfully skipped cmd message."
       success-message: ":tada: A success message."
-      failure-message: ":boom: Task failed!"
       status: ${{steps.demo.conclusion}}
       slack-webhook-url: ${{secrets.slack_webhook_url}}
 ```
