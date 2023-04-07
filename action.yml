@@ -3,20 +3,48 @@ author: Release Engineering <rel-eng@hashicorp.com>
 description: Slack Status Notification (replacement for circleci_slack_status orb).
 
 inputs:
-  was-successful:
-    description: Pass through the GH success test result, on success publish the success message
+  status:
+    description: Pass through the GH `success()` result or explict job result (true/success, false/failure, cancelled, or skipped).
     required: true
   slack-webhook-url:
     description: Slack application webhook URL to post the message (if unsure, ask RelEng to create one)
     required: true
+    type: string
   success-message:
-    description: The success message (in Markdown) to be sent when was-successful is true.
+    description: The success message (in Markdown) to be sent when was-successful is true. If unset, no message will be sent
     default: ''
+    type: string
   failure-message:
     description: The failure message (in Markdown) to be sent when was-successful is false.
     default: ''
+    type: string
+  cancelled-message:
+    description: The cancellation message (in Markdown) to be sent when was-successful is true. If unset, no message will be sent
+    default: ''
+    type: string
+  skipped-message:
+    description: The skip message (in Markdown) to be sent when was-successful is true. If unset, no message will be sent
+    default: ''
+    type: string
 
 runs:
   using: "composite"
   steps:
-    - run: echo "Hello World"
+    - uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
+      id: this
+      with:
+        status: ${{ inputs.status }}
+        success-message: ${{ inputs.success-message }}
+        failure-message: ${{ inputs.failure-message }}
+        #github-token: act-doesn't-set-one-breaking-local-testing
+        script: |
+          return require('./main.js')({context, core})
+    - name: Send Status
+      uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844 # v1.23.0
+      env:
+        SLACK_WEBHOOK_URL: ${{ inputs.slack-webhook-url }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      if: ${{ steps.this.outputs.result != '' }}
+      with:
+        payload: ${{ steps.this.outputs.result }}
+

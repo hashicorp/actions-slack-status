@@ -13,15 +13,50 @@ permissions:
   contents: read
 
 jobs:
-  test-success-handling:
+  test-always-handling:
+    runs-on: ubuntu-latest
+    steps:
+      # For testing, we must check ourselves out.
+      - name: Checkout
+        uses: actions/checkout@v2
+      - id: demo
+        run: |
+          exit 0
+      - uses: ./
+        if: ${{always()}}
+        with:
+          failure-message: ":tada: A successful failure message."
+          status: ${{job.status}}
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
+  test-true-handling:
     runs-on: ubuntu-latest
     steps:
      # For testing, we must check ourselves out.
      - name: Checkout
        uses: actions/checkout@v2
-     - uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
-       id: this
+     - uses: ./
        with:
-         debug: true
-         script: |
-           core.debug("test")
+          success-message: ":tada: A success message."
+          status: true
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
+  test-false-handling:
+    runs-on: ubuntu-latest
+    steps:
+      # For testing, we must check ourselves out.
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: ./
+        with:
+          failure-message: ":tada: A (successful) failure message."
+          status: false
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
+  test-missing-message-handling:
+    runs-on: ubuntu-latest
+    steps:
+      # For testing, we must check ourselves out.
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: ./
+        with:
+          was-successful: true # Yes, true, success-message is undefined
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
