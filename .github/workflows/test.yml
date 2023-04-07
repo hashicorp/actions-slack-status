@@ -36,36 +36,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - id: demo
+        continue-on-error: true
         run: |
-          exit 0
+          exit 1
       - uses: ./
         if: ${{always()}}
         with:
           failure-message: ":tada: A successful failure message."
-          status: ${{job.status}}
+          status: ${{steps.demo.outcome}}
           slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
-  test-true-handling:
-    runs-on: ubuntu-latest
-    steps:
-     # For testing, we must check ourselves out.
-     - name: Checkout
-       uses: actions/checkout@v2
-     - uses: ./
-       with:
-          success-message: ":tada: A success message."
-          status: true
-          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
-  test-false-handling:
-    runs-on: ubuntu-latest
-    steps:
-      # For testing, we must check ourselves out.
-      - name: Checkout
-        uses: actions/checkout@v2
-      - uses: ./
-        with:
-          failure-message: ":tada: A (successful) failure message."
-          status: false
-          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
+
   test-missing-message-handling:
     runs-on: ubuntu-latest
     steps:
@@ -74,5 +54,6 @@ jobs:
         uses: actions/checkout@v2
       - uses: ./
         with:
-          was-successful: true # Yes, true, success-message is undefined
+          status: success
+          # Yes, success-message is undefined
           slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}

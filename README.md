@@ -21,7 +21,7 @@ steps:
     with:
       success-message: ":tada: A success message."
       failure-message: ":boom: A failure message."
-      status: ${{success()}}
+      status: ${{job.status}
       slack-webhook-url: ${{secrets.slack_webhook_url}}
 ```
 

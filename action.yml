@@ -4,8 +4,9 @@ description: Slack Status Notification (replacement for circleci_slack_status or
 
 inputs:
   status:
-    description: Pass through the GH `success()` result or explict job result (true/success, false/failure, cancelled, or skipped).
+    description: Pass through the GH conclusion/result value (success, failure, cancelled, or skipped)
     required: true
+    type: string
   slack-webhook-url:
     description: Slack application webhook URL to post the message (if unsure, ask RelEng to create one)
     required: true
@@ -15,7 +16,7 @@ inputs:
     default: ''
     type: string
   failure-message:
-    description: The failure message (in Markdown) to be sent when was-successful is false.
+    description: The failure message (in Markdown) to be sent when was-successful is false
     default: ''
     type: string
   cancelled-message:

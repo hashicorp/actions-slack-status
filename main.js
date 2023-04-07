@@ -1,22 +1,11 @@
 module.exports = ({context, core}) => {
     let workflowURL = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.run_id}`;
-    let status;
+    let status = core.getInput("status");
     core.debug(`Computed workflow URL: ${workflowURL}`);
-    try {
-        status = core.getBooleanInput("status");
-    } catch (e) {
-        if (e.name == 'TypeError') {
-            status = core.getInput("status");
-        } else {
-            throw e;
-        }
-    }
     let color;
     let message;
-    core.debug(`Workflow status was: '${status}'`);
     switch (status) {
         case 'success':
-        case true:
             color = "#476ce5"; // blue
             message = core.getInput("success-message");
             if (message == "") {
@@ -25,7 +14,6 @@ module.exports = ({context, core}) => {
             }
             break;
         case 'failure':
-        case false:
             color = "#ed5c5c"; // red
             message = core.getInput("failure-message");
             if (message == "") {
