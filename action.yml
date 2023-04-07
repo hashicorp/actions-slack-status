@@ -37,7 +37,7 @@ runs:
         status: ${{ inputs.status }}
         success-message: ${{ inputs.success-message }}
         failure-message: ${{ inputs.failure-message }}
-        #github-token: act-doesn't-set-one-breaking-local-testing
+        #github-token: uncomment-this-line-for-local-act-testing
         script: |
           return require('./main.js')({context, core})
     - name: Send Status
