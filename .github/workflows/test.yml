@@ -26,7 +26,7 @@ jobs:
       - uses: ./
         if: ${{always()}}
         with:
-          skipped-message: ":skip: A successfully skipped cmd message."
+          skipped-message: ":testing: A successful skipped message."
           status: ${{steps.demo.conclusion}}
           slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
   test-always-handling:
@@ -42,7 +42,7 @@ jobs:
       - uses: ./
         if: ${{always()}}
         with:
-          failure-message: ":tada: A successful failure message."
+          failure-message: ":testing: A successful failure message."
           status: ${{steps.demo.outcome}}
           slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
 
@@ -55,5 +55,29 @@ jobs:
       - uses: ./
         with:
           status: success
-          # Yes, success-message is undefined
+          # Yes, success-message is undefined, this will emit no slack message!
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
+
+  test-success-message-handling:
+    runs-on: ubuntu-latest
+    steps:
+      # For testing, we must check ourselves out.
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: ./
+        with:
+          status: success
+          success-message: ":testing: A successful success message."
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
+
+  test-cancelled-message-handling:
+    runs-on: ubuntu-latest
+    steps:
+      # For testing, we must check ourselves out.
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: ./
+        with:
+          status: cancelled
+          cancelled-message: ":testing: A successful cancelled message."
           slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
