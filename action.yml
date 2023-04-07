@@ -35,10 +35,10 @@ runs:
       id: this
       env:
         INPUT_STATUS: ${{inputs.status}}
-        INPUT_SUCCESS_MESSAGE: ${{inputs.success-message}}
-        INPUT_FAILURE_MESSAGE: ${{inputs.failure-message}}
-        INPUT_CANCELLED_MESSAGE: ${{inputs.cancelled-message}}
-        INPUT_SKIPPED_MESSAGE: ${{inputs.skipped-message}}
+        INPUT_SUCCESS-MESSAGE: ${{inputs.success-message}}
+        INPUT_FAILURE-MESSAGE: ${{inputs.failure-message}}
+        INPUT_CANCELLED-MESSAGE: ${{inputs.cancelled-message}}
+        INPUT_SKIPPED-MESSAGE: ${{inputs.skipped-message}}
       with:
         # github-token: uncomment-this-line-for-local-act-testing
         script: |
