@@ -13,6 +13,22 @@ permissions:
   contents: read
 
 jobs:
+  test-skip-handling:
+    runs-on: ubuntu-latest
+    steps:
+      # For testing, we must check ourselves out.
+      - name: Checkout
+        uses: actions/checkout@v2
+      - if: ${{ 'false' != 'false' }}
+        id: demo
+        run: |
+          exit 0
+      - uses: ./
+        if: ${{always()}}
+        with:
+          skipped-message: ":skip: A successfully skipped cmd message."
+          status: ${{steps.demo.conclusion}}
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
   test-always-handling:
     runs-on: ubuntu-latest
     steps:

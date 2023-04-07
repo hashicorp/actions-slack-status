@@ -13,6 +13,7 @@ module.exports = ({context, core}) => {
     }
     let color;
     let message;
+    core.debug(`Workflow status was: '${status}'`);
     switch (status) {
         case 'success':
         case true:
@@ -46,7 +47,7 @@ module.exports = ({context, core}) => {
                 return
             }
         default:
-            core.error(`Unsupported status '${status}', please check inputs`)
+            core.error(`Unsupported status value, please check inputs: '${status}'`)
             return
     }
     return {
