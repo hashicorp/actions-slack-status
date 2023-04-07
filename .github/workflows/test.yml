@@ -10,7 +10,7 @@ on:
     branches: [main]
 
 permissions:
-  content: read
+  contents: read
 
 jobs:
   test-success-handling:
