@@ -83,12 +83,12 @@ steps:
 
 In the examples we used different ways of obtaining the statuses. Their usage can be nuanced, but generally they are:
 
-[jobs.status docs](https://docs.github.com/en/actions/learn-github-actions/contexts#job-context): success, failure or cancelled
-[steps.id.conclusion docs](https://docs.github.com/en/actions/learn-github-actions/contexts#steps-context): success, failure, cancelled, or skipped
-[steps.id.outcome docs](https://docs.github.com/en/actions/learn-github-actions/contexts#steps-context): success, failure, cancelled, or skipped
+  * [jobs.status docs](https://docs.github.com/en/actions/learn-github-actions/contexts#job-context): `success`, `failure`, or `cancelled`
+  * [steps.id.conclusion docs](https://docs.github.com/en/actions/learn-github-actions/contexts#steps-context): `success`, `failure`, `cancelled`, or `skipped`
+  * [steps.id.outcome docs](https://docs.github.com/en/actions/learn-github-actions/contexts#steps-context): `success`, `failure`, `cancelled`, or `skipped`
 
 If in doubt, use `${{jobs.status}}`. The specific step status can be useful if we need to report skips or when multiple
-steps are mutually exclusive and we would like to notify exactly which one fired.
+steps are mutually exclusive, and we would like to notify exactly which one fired.
 
 Step conclusion and outcome can differ depending on whether `continue-on-error` is set. In otherwords, if
 a step's `continue-on-error: true`, the outcome may be `failure` or `success` but the conclusion would be `success`.
