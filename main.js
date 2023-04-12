@@ -1,3 +1,6 @@
+// Copyright (c) HashiCorp, Inc.
+// SPDX-License-Identifier: MPL-2.0
+
 module.exports = ({context, core}) => {
     let workflowURL = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.run_id}`;
     let status = core.getInput("status");

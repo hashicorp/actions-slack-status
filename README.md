@@ -1,3 +1,5 @@
+_For internal HashiCorp use only. The output of this action is specifically designed to satisfy the needs of our internal deployment system, and may not be useful to other organizations._
+
 # Slack workflow status action
 
 No bells, no whistles, just status.
