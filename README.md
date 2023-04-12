@@ -25,7 +25,7 @@ Do *not* use Slack's Workflow Builder integration to generate the webhook link.
 
 2. Add the step to the workflow
 
-To use, add a step like:
+To use, add a step that tests the job status (success, failure, cancelled):
 
 ```yaml
 steps:
@@ -36,13 +36,14 @@ steps:
   - uses: hashicorp/actions-slack-status@v1
     if: ${{always()}}
     with:
-      success-message: ":tada: A success message."
-      failure-message: ":boom: A failure message."
-      status: ${{job.status}
+      success-message: "A *bolded success* message."
+      failure-message: "A failure message."
+      #cancelled-message: "Operation cancelled, but that's okay!"
+      status: ${{job.status}}
       slack-webhook-url: ${{secrets.slack_webhook_url}}
 ```
 
-Or more advanced usage, pass a specific step conclusion:
+Or more advanced usage with, pass a specific step conclusion (success, failure, cancelled, skipped):
 
 ```yaml
 steps:
@@ -53,8 +54,8 @@ steps:
       exit 0
   - uses: hashicorp/actions-slack-status@v1
     with:
-      skipped-message: ":skip: A successfully skipped cmd message."
-      success-message: ":tada: A success message."
+      skipped-message: "A successfully skipped `cmd` message."
+      success-message: "A success message."
       status: ${{steps.demo.conclusion}}
       slack-webhook-url: ${{secrets.slack_webhook_url}}
 ```
@@ -68,14 +69,26 @@ In this example, success messages are never sent and no GHA warning will be
 emitted regarding this omission.
 ```yaml
 steps:
-  # ...
   - run: |
       exit 0
   - uses: hashicorp/actions-slack-status@v1
     if: failure()
     with:
-      failure-message: "How did this fail, it was so simple!"
-      status: ${{job.status}}
+      failure-message: "Since our job never fails, this message will never send nor will it warn about a missing success-message field"
+      status: 'failure'
       slack-webhook-url: ${{secrets.slack_webhook_url}}
 ```
 
+### Job Status Meanings
+
+In the examples we used different ways of obtaining the statuses. Their usage can be nuanced, but generally they are:
+
+[jobs.status docs](https://docs.github.com/en/actions/learn-github-actions/contexts#job-context): success, failure or cancelled
+[steps.id.conclusion docs](https://docs.github.com/en/actions/learn-github-actions/contexts#steps-context): success, failure, cancelled, or skipped
+[steps.id.outcome docs](https://docs.github.com/en/actions/learn-github-actions/contexts#steps-context): success, failure, cancelled, or skipped
+
+If in doubt, use `${{jobs.status}}`. The specific step status can be useful if we need to report skips or when multiple
+steps are mutually exclusive and we would like to notify exactly which one fired.
+
+Step conclusion and outcome can differ depending on whether `continue-on-error` is set. In otherwords, if
+a step's `continue-on-error: true`, the outcome may be `failure` or `success` but the conclusion would be `success`.
