@@ -4,6 +4,13 @@ _For internal HashiCorp use only. The output of this action is specifically desi
 
 No bells, no whistles, just status a status message.
 
+## Example
+
+See also some implementations in the wild:
+- [hashicorp/vault-helm](https://github.com/hashicorp/vault-helm/blob/bb9a069/.github/workflows/update-helm-charts-index.yml#L34-L40)
+
+Notifications will be emitted with some simple formatting:
+
 ![sample color coded slack notifications](docs/example-notifications.png)
 
 ## Usage
