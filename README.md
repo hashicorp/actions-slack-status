@@ -61,7 +61,7 @@ steps:
 ```
 
 
-Note: Normally, if an `${status}-message` is not defined for a given status a
+Note: Normally, if a `${status}-message` is not defined for a given status a
 GH warning will be emitted on the action and no message will be sent to slack.
 To avoid this, one can use an approprate `if` statement to skip this step.
 
