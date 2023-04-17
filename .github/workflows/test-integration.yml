@@ -21,6 +21,6 @@ jobs:
       - uses: hashicorp/action-slack-status@main
         with:
           success-message: "Merge successfull"
-          status: ${{job.status
+          status: ${{job.status}}
           slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
 
