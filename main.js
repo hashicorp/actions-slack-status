@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 module.exports = ({context, core}) => {
-    let workflowURL = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.run_id}`;
+    let workflowURL = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
     let status = core.getInput("status");
     core.debug(`Computed workflow URL: ${workflowURL}`);
     let color;
