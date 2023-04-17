@@ -1,0 +1,26 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
+name: test main integration
+# This workflow validates the merged code functions exactly as an invoking workflow might use it.
+# Due to the requiremnet that `uses` be a hard-coded value, we can only validate explicit git refs.
+# In this case, we validate once a PR has been merged, main branch functions correctly
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+
+jobs:
+  main-merge:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - uses: hashicorp/action-slack-status@main
+        with:
+          success-message: "Merge successfull"
+          status: ${{job.status
+          slack-webhook-url: ${{secrets.slack_webhook_url_feed_releng_test}}
+

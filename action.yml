@@ -45,7 +45,7 @@ runs:
       with:
         # github-token: uncomment-this-line-for-local-act-testing
         script: |
-          return require('./main.js')({context, core})
+          return require(process.env.GITHUB_ACTION_PATH + '/main.js')({context, core})
     - name: Send Status
       uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844 # v1.23.0
       env:
