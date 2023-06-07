@@ -1,0 +1,7 @@
+runbooks: []
+  # - name: runbook name
+  #   link: link to runbook
+
+other_links:
+  - name: readme
+    link: https://github.com/hashicorp/actions-slack-status/blob/main/README.md
