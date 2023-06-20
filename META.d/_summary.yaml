@@ -1,0 +1,11 @@
+schema: 1.1
+
+partition: internal-platform
+category: github-action
+
+summary:
+  name: actions-slack-status
+  owner: team-rel-eng
+  description: Send simplified stack status notifications
+  visibility: external
+  auth_methods: none

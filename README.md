@@ -1,6 +1,6 @@
 _For internal HashiCorp use only. The output of this action is specifically designed to satisfy the needs of our internal deployment system, and may not be useful to other organizations._
 
-# Slack workflow status action
+# Slack workflow status action [![Heimdall](https://heimdall.hashicorp.services/api/v1/assets/actions-slack-status/badge.svg?key=0dd6185498d06d59c175bc9a25cb61d6c9216edebf2feb4064ac0a79b10e711d)](https://heimdall.hashicorp.services/site/assets/actions-slack-status) [![CI](https://github.com/hashicorp/actions-slack-status/actions/workflows/test.yml/badge.svg)](https://github.com/hashicorp/actions-slack-status/actions/workflows/test.yml)
 
 No bells, no whistles, just status a status message.
 
