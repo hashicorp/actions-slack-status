@@ -5,3 +5,15 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Only update hashicorp-owned actions
+    # External actions managed via TSCCR
+    allow:
+      - dependency-name: "hashicorp/*"
+    groups:
+      github-actions-breaking:
+        update-types:
+          - major
+      github-actions-backward-compatible:
+        update-types:
+          - minor
+          - patch
