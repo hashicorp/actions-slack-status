@@ -9,32 +9,26 @@ inputs:
   status:
     description: Pass through the GH conclusion/result value (success, failure, cancelled, or skipped)
     required: true
-    type: string
   slack-webhook-url:
     description: Slack application webhook URL to post the message (if unsure, ask RelEng to create one)
     required: true
-    type: string
   success-message:
     description: The message (in Markdown) to be sent when status is 'success'. If unset, no message will be sent
     default: ''
-    type: string
   failure-message:
     description: The message (in Markdown) to be sent when status is 'failure'. f unset, no message will be sent
     default: ''
-    type: string
   cancelled-message:
     description: The message (in Markdown) to be sent when status is 'cancelled'. If unset, no message will be sent
     default: ''
-    type: string
   skipped-message:
     description: The message (in Markdown) to be sent when status is 'skipped'. If unset, no message will be sent
     default: ''
-    type: string
 
 runs:
   using: "composite"
   steps:
-    - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+    - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
       id: this
       env:
         INPUT_STATUS: ${{inputs.status}}
@@ -47,11 +41,10 @@ runs:
         script: |
           return require(process.env.GITHUB_ACTION_PATH + '/main.js')({context, core})
     - name: Send Status
-      uses: slackapi/slack-github-action@70cd7be8e40a46e8b0eced40b0de447bdb42f68e # v1.26.0
-      env:
-        SLACK_WEBHOOK_URL: ${{ inputs.slack-webhook-url }}
-        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1
       if: ${{ steps.this.outputs.result != '' }}
       with:
+        webhook: ${{ inputs.slack-webhook-url }}
+        webhook-type: incoming-webhook
         payload: ${{ steps.this.outputs.result }}
 
