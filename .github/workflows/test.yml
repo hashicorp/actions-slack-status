@@ -15,11 +15,13 @@ permissions:
 jobs:
   test-skip-handling:
     runs-on: ubuntu-latest
+    env:
+      SKIP_DEMO: 'true'
     steps:
       # For testing, we must check ourselves out.
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v4.0.0
-      - if: false
+      - if: ${{ env.SKIP_DEMO != 'true' }}
         id: demo
         run: |
           exit 0
